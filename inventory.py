@@ -27,8 +27,10 @@ class Database:
 
 
 def del_sign(col_val):
-    price = str(col_val).replace("$", "")
-    return float(price)
+    char = "$,"
+    for s in char:
+        col_val = str(col_val).replace(s, "")
+    return float(col_val)
 
 
 def sort_values(df_arr, col_num):
