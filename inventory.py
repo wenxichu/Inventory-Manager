@@ -1,7 +1,8 @@
 import pandas as pd
 from prettytable import PrettyTable
 
-file_data = pd.read_csv(r"C:\Users\wenxi\PycharmProjects\Research Lab\Lab Data.csv")
+# Directory
+file_data = pd.read_csv("Lab Data.csv")
 
 glass_df = pd.DataFrame(file_data.iloc[0:15, 0:5], columns=["Glassware", "No. in Stock", "Location",
                                                             "Vendor", "Unit Price"])
