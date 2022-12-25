@@ -6,7 +6,7 @@ from inventory import update_values, glass_df, cell_df, chem_df, supply_df, inst
 # Lab Window
 inv_win = tkinter.Tk(className="inventory manager")
 
-win_w = 860
+win_w = 880
 win_h = 560
 
 sw = inv_win.winfo_screenwidth()
@@ -20,7 +20,7 @@ inv_win["bg"] = "light gray"
 inv_win.resizable(False, False)
 
 new_page = tkinter.StringVar()
-new_frame = tkinter.Label(inv_win, textvariable=new_page, background="#B3EAF4", font=("Courier New", 12))
+new_frame = tkinter.Label(inv_win, textvariable=new_page, background="#B3EAF4", font=("Courier", 12))
 
 all_pgs = {1: [glass_df, "No. in Stock", "Unit Price"],
            2: [cell_df, "No. in Stock.1", "Unit Price.1"],
@@ -50,14 +50,14 @@ dropdown["menu"].config(font=("Times New Roman", 14), bg="silver")
 dropdown.pack()
 dropdown.place(x=100, y=20)
 
-prev_btn = tkinter.Button(inv_win, text="\u2190 Prev", font=("Times New Roman", 16), bg="#A2E5F1",
+prev_btn = tkinter.Button(inv_win, text="\u2190 Prev", font=("Times New Roman", 15), bg="#A2E5F1",
                           activebackground="silver", command=lambda: None)
 
-next_btn = tkinter.Button(inv_win, text="Next \u2192", font=("Times New Roman", 16), bg="#A2E5F1",
+next_btn = tkinter.Button(inv_win, text="Next \u2192", font=("Times New Roman", 15), bg="#A2E5F1",
                           activebackground="silver", command=lambda: None)
 
-prev_btn.place(x=270, y=486)
-next_btn.place(x=500, y=486)
+prev_btn.place(x=270, y=490)
+next_btn.place(x=500, y=490)
 
 
 # Export Data
@@ -67,9 +67,9 @@ def confirm(file, df):
         write_csv(file, df)
 
 
-export_btn = tkinter.Button(inv_win, text="Export", font=("Times New Roman", 16), bg="#A2E5F1",
+export_btn = tkinter.Button(inv_win, text="Export", font=("Times New Roman", 15), bg="#A2E5F1",
                             activebackground="silver", command=lambda: None)
-export_btn.place(x=390, y=486)
+export_btn.place(x=390, y=490)
 
 page_ct = 0
 
@@ -82,7 +82,7 @@ def get_num(n):
 
 def set_frame(df_table):
     new_page.set(df_table)
-    new_frame.pack(side="top", fill="y", padx=20, pady=75)
+    new_frame.pack(side="top", fill="y", padx=20, pady=80)
     return new_frame
 
 
