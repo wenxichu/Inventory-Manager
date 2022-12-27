@@ -45,7 +45,7 @@ def sort_col(choice):
 var = tkinter.StringVar(inv_win)
 var.set("Select One")
 dropdown = tkinter.OptionMenu(inv_win, var, "No. in Stock", "Unit Price", command=sort_col)
-dropdown.config(width=11, bg="light gray", font=("Times New Roman", 14))
+dropdown.config(width=11, bg="light gray", activebackground="silver", font=("Times New Roman", 14))
 dropdown["menu"].config(font=("Times New Roman", 14), bg="silver")
 dropdown.pack()
 dropdown.place(x=100, y=20)
