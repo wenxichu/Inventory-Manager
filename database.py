@@ -56,14 +56,22 @@ class DoubleLL:
         return temp
 
     def prev_page(self, index):
-        temp = self.get_page(index)
-        temp = temp.prev
-        return temp.data
+        try:
+            temp = self.get_page(index)
+            if not index == 0:
+                temp = temp.prev
+            return temp.data
+        except AttributeError:
+            return "The page does not exist."
 
     def next_page(self, index):
-        temp = self.get_page(index)
-        temp = temp.next
-        return temp.data
+        try:
+            temp = self.get_page(index)
+            if index < self.length - 1:
+                temp = temp.next
+            return temp.data
+        except AttributeError:
+            return "The page does not exist."
 
     def search_df(self, item):
         temp = self.head
@@ -86,8 +94,19 @@ def write_csv(name, new_df):
     new_df.to_csv(str(name + ".csv"), header=titles, index=False)
 
 
+def sum_mult(stock_col, price_col):
+    new_col = price_col.map(lambda x: x.strip("$").replace(",", ""))
+    col_1 = stock_col.astype(int)
+    col_2 = new_col.astype(float)
+
+    mult_cells = col_1 * col_2
+    return "${:,.2f}".format(mult_cells.sum())
+
+
 lab_data = DoubleLL(glass_df)
 lab_data.add_df(cell_df)
 lab_data.add_df(chem_df)
 lab_data.add_df(supply_df)
 lab_data.add_df(instr_df)
+# print(lab_data.prev_page(4))
+# print(lab_data.next_page(3))
