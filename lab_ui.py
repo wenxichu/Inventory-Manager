@@ -1,17 +1,15 @@
 import tkinter
 from tkinter import messagebox
-from database import write_csv, lab_data
+from database import write_csv, lab_data, sum_mult
 from inventory import update_values, glass_df, cell_df, chem_df, supply_df, instr_df, df_to_table
 
 # Lab Window
 inv_win = tkinter.Tk(className="inventory manager")
-
 win_w = 880
-win_h = 560
+win_h = 566
 
 sw = inv_win.winfo_screenwidth()
 sh = inv_win.winfo_screenheight()
-
 x_pos = (sw / 2) - (win_w / 2)
 y_pos = (sh / 2) - (win_h / 2)
 
@@ -27,6 +25,14 @@ all_pgs = {1: [glass_df, "No. in Stock", "Unit Price"],
            3: [chem_df, "No. in Stock.2", "Unit Price.2"],
            4: [supply_df, "No. in Stock.3", "Unit Price.3"],
            5: [instr_df, "No. in Stock.4", "Unit Price.4"]}
+
+page_ct = 0
+
+
+def get_num(n):
+    global page_ct
+    page_ct = n
+    return page_ct
 
 
 def sort_col(choice):
@@ -56,8 +62,8 @@ prev_btn = tkinter.Button(inv_win, text="\u2190 Prev", font=("Times New Roman", 
 next_btn = tkinter.Button(inv_win, text="Next \u2192", font=("Times New Roman", 15), bg="#A2E5F1",
                           activebackground="silver", command=lambda: None)
 
-prev_btn.place(x=270, y=490)
-next_btn.place(x=500, y=490)
+prev_btn.place(x=270, y=500)
+next_btn.place(x=500, y=500)
 
 
 # Export Data
@@ -69,21 +75,22 @@ def confirm(file, df):
 
 export_btn = tkinter.Button(inv_win, text="Export", font=("Times New Roman", 15), bg="#A2E5F1",
                             activebackground="silver", command=lambda: None)
-export_btn.place(x=390, y=490)
-
-page_ct = 0
-
-
-def get_num(n):
-    global page_ct
-    page_ct = n
-    return page_ct
+export_btn.place(x=390, y=500)
 
 
 def set_frame(df_table):
     new_page.set(df_table)
-    new_frame.pack(side="top", fill="y", padx=20, pady=80)
+    new_frame.pack(side="top", fill="y", padx=20, pady=78)
     return new_frame
+
+
+budget = tkinter.Message(inv_win, text="Total Value: ", font=("Calibri", 15, "bold"), width=180, bg="lightgray")
+budget.pack()
+budget.place(x=315, y=448)
+
+calculate = tkinter.Label(inv_win, text="0.00", background="#B3EAF4", font=("Calibri", 15), bg="whitesmoke")
+calculate.pack()
+calculate.place(x=435, y=450)
 
 
 # Lab Inventory
@@ -96,6 +103,7 @@ class Page1:
         prev_btn.configure(command=lambda: Page5())
         next_btn.configure(command=lambda: Page2())
         self.export_file()
+        calculate.configure(text=sum_mult(glass_df['No. in Stock'], glass_df['Unit Price']))
 
     @property
     def df_name(self):
@@ -114,6 +122,7 @@ class Page2:
         prev_btn.configure(command=lambda: Page1())
         next_btn.configure(command=lambda: Page3())
         self.export_file()
+        calculate.configure(text=sum_mult(cell_df['No. in Stock.1'], cell_df['Unit Price.1']))
 
     @property
     def df_name(self):
@@ -132,6 +141,7 @@ class Page3:
         prev_btn.configure(command=lambda: Page2())
         next_btn.configure(command=lambda: Page4())
         self.export_file()
+        calculate.configure(text=sum_mult(chem_df['No. in Stock.2'], chem_df['Unit Price.2']))
 
     @property
     def df_name(self):
@@ -150,6 +160,7 @@ class Page4:
         prev_btn.configure(command=lambda: Page3())
         next_btn.configure(command=lambda: Page5())
         self.export_file()
+        calculate.configure(text=sum_mult(supply_df['No. in Stock.3'], supply_df['Unit Price.3']))
 
     @property
     def df_name(self):
@@ -168,6 +179,7 @@ class Page5:
         prev_btn.configure(command=lambda: Page4())
         next_btn.configure(command=lambda: Page1())
         self.export_file()
+        calculate.configure(text=sum_mult(instr_df['No. in Stock.4'], instr_df['Unit Price.4']))
 
     @property
     def df_name(self):
@@ -204,5 +216,4 @@ search.pack()
 search.place(x=365, y=24)
 search.bind("<1>", lambda event: search.focus_set())
 search.bind("<Return>", lambda event: [get_input(), inv_win.focus_set()])
-
 inv_win.mainloop()
